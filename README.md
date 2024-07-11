@@ -1,87 +1,88 @@
-# Jumpstart Project
+# Spring Boot, PostgreSQL, Auth0, and Docker Jumpstart Template
 
-## Overview
+This repository is a comprehensive template designed to help you quickly start a project using Spring Boot, PostgreSQL, Auth0 for authentication, and Docker for easy deployment and container management. It's perfect for building robust, scalable web applications with a focus on security and efficiency.
 
-Jumpstart is a demo project built with Spring Boot, showcasing a RESTful web service, web content serving with Spring MVC, REST services with Spring, data access with JPA, web application security, and more. This project is designed to provide a starting point for Spring Boot applications, incorporating best practices and common patterns.
+## Features
+
+- **Spring Boot**: A powerful framework for building Java-based web applications.
+- **PostgreSQL**: A robust, SQL-compliant database system.
+- **Auth0**: A flexible, easy-to-implement platform for authentication and authorization.
+- **Docker**: Simplifies deployment by containerizing your application and its environment.
 
 ## Prerequisites
 
-- JDK 21 or later
-- Maven 3.9 or later
-- Docker (for containerization)
+Before you begin, ensure you have the following installed:
 
-## Environment Variables
+- Docker and Docker Compose
+- An Auth0 account
 
-To configure the application correctly, you need to set up the following environment variables. Create a `.env` file in the root directory of your project and add the variables listed below. Make sure to replace the placeholder values with your actual data.
+## Quick Start
+
+### 1. Clone the Repository
+
+Clone this repository to your local machine to get started:
+
+```sh
+git clone https://github.com/madushas/springboot-postgres-auth0-docker-jumpstart.git
+cd springboot-postgres-auth0-docker-jumpstart
+```
+
+### 2. Set Up Environment Variables
+
+Configure your environment variables in a `.env` file at the root of your project. Replace the placeholders with your specific values:
 
 ```plaintext
-PORT=8000
-
-DB_STRING=jdbc:postgresql://<your-database-url>?sslmode=require
-DB_NAME=<your-database-name>
-DB_USERNAME=<your-database-username>
-DB_PASSWORD=<your-database-password>
-
-AUTH0_ISSUER=<your-auth0-issuer-url>
-AUTH0_AUDIENCE=<your-auth0-audience>
+PORT=8080
+DB_NAME=your_database_name
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
+AUTH0_ISSUER=your_auth0_issuer_url
+AUTH0_AUDIENCE=your_auth0_audience
 ```
 
-## Building the Project
+### 3. Build and Run with Docker Compose
 
-To build the project, run the following command in the root directory:
-
-```sh
-./mvnw clean package -DskipTests
-```
-
-This command cleans the target directory, compiles your sources, and packages the compiled code into a JAR file, skipping the tests.
-
-## Running the Application
-
-### Locally
-
-After building the project, you can run the application using:
-
-```sh
-java -jar target/jumpstart-0.0.1-SNAPSHOT.jar
-```
-
-### Using Docker
-
-To build and run the application using Docker, execute:
+Use Docker Compose to build and run your application and its services:
 
 ```sh
 docker-compose up --build
 ```
 
-This command builds the Docker image as defined in the `Dockerfile` and starts the container as specified in `docker-compose.yml`.
+Your application will be accessible at `http://localhost:8080`.
 
-## Configuration
+## Docker Compose Services
 
-Application configurations can be found and modified in `src/main/resources/application.properties` or `src/main/resources/application.yml`.
+The `docker-compose.yml` file defines the following services:
 
-## Documentation and Guides
+- **Postgres**: The PostgreSQL database service.
+- **App**: The Spring Boot application service.
 
-For further reference and to understand how to use specific features of Spring Boot and related technologies, consider the following resources:
+### Postgres Service
 
-- Official Apache Maven documentation
-- Spring Boot Maven Plugin Reference Guide
-- Spring Web
-- Spring Data JPA
-- Spring Security
+- Uses the official `postgres:13` image.
+- Stores data in a named volume (`postgres_data`) for persistence.
+- Includes a health check to ensure the database is ready before the app starts.
 
-### Guides
+### App Service
 
-- Building a RESTful Web Service
-- Serving Web Content with Spring MVC
-- Building REST services with Spring
-- Accessing Data with JPA
-- Securing a Web Application
+- Builds the Spring Boot application from the Dockerfile in the project root.
+- Connects to the PostgreSQL service and Auth0 for authentication.
+- Exposes port 8080 for web access.
+- Includes a health check to ensure the service is running correctly.
+
+## Volumes
+
+- **postgres_data**: Stores PostgreSQL database files to persist data between container restarts.
+
+## Networks
+
+- **backend**: Allows communication between the app and PostgreSQL services.
+- **frontend**: Intended for future expansion, e.g., integrating a frontend service.
 
 ## Contributing
 
-Contributions are welcome. Please read the `CONTRIBUTING.md` file for guidelines on how to contribute to this project.
+Contributions are welcome! Please feel free to submit a pull request.
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
